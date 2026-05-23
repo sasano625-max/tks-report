@@ -121,11 +121,11 @@ export async function POST(req: NextRequest) {
         });
 
         const tableData = [
-          [{ text: "店舗名", options: { fill: "1E40AF", color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.storeName, options: { align: "center", fontFace: FONT_FACE, fill: "F1F5F9" } }],
-          [{ text: "設置日", options: { fill: "1E40AF", color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.completionDate, options: { align: "center", fontFace: FONT_FACE, fill: "F1F5F9" } }],
-          [{ text: "タイプ", options: { fill: "1E40AF", color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.type, options: { align: "center", fontFace: FONT_FACE, fill: "F1F5F9" } }],
-          [{ text: "モニターL", options: { fill: "1E40AF", color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.monitorLeft, options: { align: "center", fontFace: FONT_FACE, fill: "F1F5F9" } }],
-          [{ text: "モニターR", options: { fill: "1E40AF", color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.monitorRight, options: { align: "center", fontFace: FONT_FACE, fill: "F1F5F9" } }],
+          [{ text: "店舗名", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.storeName, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
+          [{ text: "設置日", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.completionDate, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
+          [{ text: "タイプ", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.type, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
+          [{ text: "モニターL", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.monitorLeft, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
+          [{ text: "モニターR", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.monitorRight, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
         ];
         slide.addTable(tableData, { 
           x: layout.tableX, y: layout.tableY, colW: [layout.tableW1, layout.tableW2], rowH: layout.tableRowH, 
@@ -139,10 +139,10 @@ export async function POST(req: NextRequest) {
       if (templateBase64) slide1.background = { data: templateBase64 };
       addHeader(slide1, "設置前・設置後 比較報告");
       
-      slide1.addText("BEFORE", { x: layout.beforeX, y: layout.beforeY - 0.35, w: layout.beforeW, h: 0.3, align: "center", fill: "64748B", color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
+      slide1.addText("BEFORE", { x: layout.beforeX, y: layout.beforeY - 0.35, w: layout.beforeW, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
       if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: layout.beforeX, y: layout.beforeY, w: layout.beforeW, h: layout.beforeH, sizing: { type: "contain" } });
       
-      slide1.addText("AFTER", { x: layout.afterX, y: layout.afterY - 0.35, w: layout.afterW, h: 0.3, align: "center", fill: PRIMARY_BLUE, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
+      slide1.addText("AFTER", { x: layout.afterX, y: layout.afterY - 0.35, w: layout.afterW, h: 0.3, align: "center", fill: { color: PRIMARY_BLUE }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
       if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: layout.afterX, y: layout.afterY, w: layout.afterW, h: layout.afterH, sizing: { type: "contain" } });
 
       // Slide 2: 3-Way Views
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
         { t: "側面 右 (Right)", img: fetchedImages.sideRight, x: layout.sideRightX, y: layout.sideRightY, w: layout.sideRightW, h: layout.sideRightH }
       ];
       views.forEach(v => {
-        slide2.addText(v.t, { x: v.x, y: v.y - 0.35, w: v.w, h: 0.3, align: "center", fill: PRIMARY_BLUE, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 11 });
+        slide2.addText(v.t, { x: v.x, y: v.y - 0.35, w: v.w, h: 0.3, align: "center", fill: { color: PRIMARY_BLUE }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 11 });
         if (v.img) slide2.addImage({ data: v.img, x: v.x, y: v.y, w: v.w, h: v.h, sizing: { type: "contain" } });
       });
 
@@ -165,10 +165,10 @@ export async function POST(req: NextRequest) {
       if (templateBase64) slide3.background = { data: templateBase64 };
       addHeader(slide3, "他社状況・周辺比較");
       
-      slide3.addText("他社比較 1", { x: layout.other1X, y: layout.other1Y - 0.35, w: layout.other1W, h: 0.3, align: "center", fill: "64748B", color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
+      slide3.addText("他社比較 1", { x: layout.other1X, y: layout.other1Y - 0.35, w: layout.other1W, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
       if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: layout.other1X, y: layout.other1Y, w: layout.other1W, h: layout.other1H, sizing: { type: "contain" } });
       
-      slide3.addText("他社比較 2", { x: layout.other2X, y: layout.other2Y - 0.35, w: layout.other2W, h: 0.3, align: "center", fill: "64748B", color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
+      slide3.addText("他社比較 2", { x: layout.other2X, y: layout.other2Y - 0.35, w: layout.other2W, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
       if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: layout.other2X, y: layout.other2Y, w: layout.other2W, h: layout.other2H, sizing: { type: "contain" } });
     }
 
