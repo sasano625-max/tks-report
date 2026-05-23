@@ -140,10 +140,10 @@ export async function POST(req: NextRequest) {
       addHeader(slide1, "設置前・設置後 比較報告");
       
       slide1.addText("BEFORE", { x: layout.beforeX, y: layout.beforeY - 0.35, w: layout.beforeW, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: layout.beforeX, y: layout.beforeY, w: layout.beforeW, h: layout.beforeH, sizing: { type: "contain" } });
+      if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: layout.beforeX, y: layout.beforeY, w: layout.beforeW, h: layout.beforeH, sizing: { type: "contain", w: layout.beforeW, h: layout.beforeH } });
       
       slide1.addText("AFTER", { x: layout.afterX, y: layout.afterY - 0.35, w: layout.afterW, h: 0.3, align: "center", fill: { color: PRIMARY_BLUE }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: layout.afterX, y: layout.afterY, w: layout.afterW, h: layout.afterH, sizing: { type: "contain" } });
+      if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: layout.afterX, y: layout.afterY, w: layout.afterW, h: layout.afterH, sizing: { type: "contain", w: layout.afterW, h: layout.afterH } });
 
       // Slide 2: 3-Way Views
       const slide2 = pptx.addSlide();
@@ -157,7 +157,7 @@ export async function POST(req: NextRequest) {
       ];
       views.forEach(v => {
         slide2.addText(v.t, { x: v.x, y: v.y - 0.35, w: v.w, h: 0.3, align: "center", fill: { color: PRIMARY_BLUE }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 11 });
-        if (v.img) slide2.addImage({ data: v.img, x: v.x, y: v.y, w: v.w, h: v.h, sizing: { type: "contain" } });
+        if (v.img) slide2.addImage({ data: v.img, x: v.x, y: v.y, w: v.w, h: v.h, sizing: { type: "contain", w: v.w, h: v.h } });
       });
 
       // Slide 3: Other Brands
@@ -166,10 +166,10 @@ export async function POST(req: NextRequest) {
       addHeader(slide3, "他社状況・周辺比較");
       
       slide3.addText("他社比較 1", { x: layout.other1X, y: layout.other1Y - 0.35, w: layout.other1W, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: layout.other1X, y: layout.other1Y, w: layout.other1W, h: layout.other1H, sizing: { type: "contain" } });
+      if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: layout.other1X, y: layout.other1Y, w: layout.other1W, h: layout.other1H, sizing: { type: "contain", w: layout.other1W, h: layout.other1H } });
       
       slide3.addText("他社比較 2", { x: layout.other2X, y: layout.other2Y - 0.35, w: layout.other2W, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: layout.other2X, y: layout.other2Y, w: layout.other2W, h: layout.other2H, sizing: { type: "contain" } });
+      if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: layout.other2X, y: layout.other2Y, w: layout.other2W, h: layout.other2H, sizing: { type: "contain", w: layout.other2W, h: layout.other2H } });
     }
 
     const buffer = await pptx.write({ outputType: "nodebuffer" });
@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
 
     const filename = reports.length === 1 ? `${reports[0].storeName}.pptx` : `Batch_Report_${Date.now()}.pptx`;
 
-    return new NextResponse(buffer as Buffer, {
+    return new NextResponse(buffer as unknown as BodyInit, {
       status: 200,
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
