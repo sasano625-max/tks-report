@@ -1,0 +1,186 @@
+API called at 2026-05-16T05:59:45.115Z
+Generating PPT for: ケーズ水戸本店
+API called at 2026-05-16T06:00:53.603Z
+Generating PPT for: ケーズ水戸本店
+Fetching 7 images...
+Fetching image: after (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for after: Success
+Fetching image: front (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for front: Success
+Fetching image: before (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for before: Success
+Fetching image: other1 (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for other1: Success
+Fetching image: other2 (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for other2: Success
+Fetching image: sideLeft (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for sideLeft: Success
+Fetching image: sideRight (https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v...)
+Fetch result for sideRight: Success
+Image fetching complete.
+PPT binary generated. Size: 4423177
+[2026-05-16T06:05:51.452Z] API called
+[2026-05-16T06:05:51.457Z] Generating PPT for: ケーズ水戸本店
+[2026-05-16T06:05:51.458Z] Fetching 7 images...
+[2026-05-16T06:05:51.917Z] Fetch result for after: Success
+[2026-05-16T06:05:52.294Z] Fetch result for front: Success
+[2026-05-16T06:05:52.771Z] Fetch result for before: Success
+[2026-05-16T06:05:53.290Z] Fetch result for other1: Success
+[2026-05-16T06:05:53.633Z] Fetch result for other2: Success
+[2026-05-16T06:05:53.971Z] Fetch result for sideLeft: Success
+[2026-05-16T06:05:54.382Z] Fetch result for sideRight: Success
+[2026-05-16T06:05:54.671Z] PPT generated successfully. Size: 4453144 bytes
+[2026-05-16T06:09:19.784Z] API called
+[2026-05-16T06:09:19.786Z] Generating PPT for: ノジマレイクタウン店
+[2026-05-16T06:09:19.787Z] Fetching 7 images...
+[2026-05-16T06:09:20.170Z] Fetch result for after: Success
+[2026-05-16T06:09:20.557Z] Fetch result for front: Success
+[2026-05-16T06:09:20.869Z] Fetch result for before: Success
+[2026-05-16T06:09:21.344Z] Fetch result for other1: Success
+[2026-05-16T06:09:21.691Z] Fetch result for other2: Success
+[2026-05-16T06:09:22.096Z] Fetch result for sideLeft: Success
+[2026-05-16T06:09:22.434Z] Fetch result for sideRight: Success
+[2026-05-16T06:09:22.712Z] PPT generated successfully. Size: 4453172 bytes
+[2026-05-16T06:33:23.203Z] API called
+[2026-05-16T06:33:23.206Z] Generating PPT for: ケーズ水戸本店
+[2026-05-16T06:33:23.207Z] Fetching 7 images...
+[2026-05-16T06:33:23.605Z] Fetch result for after: Success
+[2026-05-16T06:33:23.977Z] Fetch result for front: Success
+[2026-05-16T06:33:24.346Z] Fetch result for before: Success
+[2026-05-16T06:33:24.886Z] Fetch result for other1: Success
+[2026-05-16T06:33:25.263Z] Fetch result for other2: Success
+[2026-05-16T06:33:25.606Z] Fetch result for sideLeft: Success
+[2026-05-16T06:33:25.979Z] Fetch result for sideRight: Success
+[2026-05-16T06:33:25.980Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg?t=1778913196713
+[2026-05-16T06:33:26.026Z] Template fetch result: Success
+[2026-05-16T06:33:26.198Z] PPT generated successfully. Size: 4521218 bytes
+[2026-05-16T06:36:24.864Z] API called
+[2026-05-16T06:36:24.866Z] Generating PPT for: ケーズ水戸本店
+[2026-05-16T06:36:24.867Z] Fetching 7 images...
+[2026-05-16T06:36:25.234Z] Fetch result for after: Success
+[2026-05-16T06:36:25.543Z] Fetch result for front: Success
+[2026-05-16T06:36:25.896Z] Fetch result for before: Success
+[2026-05-16T06:36:26.349Z] Fetch result for other1: Success
+[2026-05-16T06:36:26.694Z] Fetch result for other2: Success
+[2026-05-16T06:36:26.982Z] Fetch result for sideLeft: Success
+[2026-05-16T06:36:27.497Z] Fetch result for sideRight: Success
+[2026-05-16T06:36:27.498Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg?t=1778913196713
+[2026-05-16T06:36:27.824Z] Template fetch result: Success
+[2026-05-16T06:36:28.011Z] PPT generated successfully. Size: 4521218 bytes
+[2026-05-16T06:39:00.147Z] API called
+[2026-05-16T06:39:00.149Z] Generating PPT for: ケーズ水戸本店
+[2026-05-16T06:39:00.150Z] Fetching 7 images...
+[2026-05-16T06:39:00.499Z] Fetch result for after: Success
+[2026-05-16T06:39:00.841Z] Fetch result for front: Success
+[2026-05-16T06:39:01.305Z] Fetch result for before: Success
+[2026-05-16T06:39:01.944Z] Fetch result for other1: Success
+[2026-05-16T06:39:02.327Z] Fetch result for other2: Success
+[2026-05-16T06:39:02.665Z] Fetch result for sideLeft: Success
+[2026-05-16T06:39:03.143Z] Fetch result for sideRight: Success
+[2026-05-16T06:39:03.144Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-16T06:39:03.208Z] Template fetch result: Success
+[2026-05-16T06:39:03.388Z] PPT generated successfully. Size: 4521218 bytes
+[2026-05-16T06:46:06.401Z] API called
+[2026-05-16T06:46:06.405Z] Generating PPT for 2 reports.
+[2026-05-16T06:46:06.406Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-16T06:46:06.797Z] Template fetch result: Success
+[2026-05-16T06:46:06.798Z] Adding slides for: undefined
+[2026-05-16T06:46:09.704Z] Adding slides for: undefined
+[2026-05-16T06:46:12.557Z] Batch PPT generated successfully. Size: 8995414 bytes
+[2026-05-16T06:47:49.758Z] API called
+[2026-05-16T06:47:49.759Z] Generating PPT for 1 reports.
+[2026-05-16T06:47:49.760Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-16T06:47:50.085Z] Template fetch result: Success
+[2026-05-16T06:47:50.086Z] Adding slides for: undefined
+[2026-05-16T06:47:52.867Z] Batch PPT generated successfully. Size: 4517603 bytes
+[2026-05-16T06:48:20.509Z] API called
+[2026-05-16T06:48:20.510Z] Generating PPT for 1 reports.
+[2026-05-16T06:48:20.511Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-16T06:48:20.579Z] Template fetch result: Success
+[2026-05-16T06:48:20.580Z] Adding slides for: ケーズ水戸本店
+[2026-05-16T06:48:23.938Z] Batch PPT generated successfully. Size: 4521218 bytes
+[2026-05-16T06:50:10.450Z] API called
+[2026-05-16T06:50:10.452Z] Generating PPT for 2 reports.
+[2026-05-16T06:50:10.453Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-16T06:50:10.832Z] Template fetch result: Success
+[2026-05-16T06:50:10.833Z] Adding slides for: ケーズ水戸本店
+[2026-05-16T06:50:13.780Z] Adding slides for: ノジマレイクタウン店
+[2026-05-16T06:50:16.490Z] Batch PPT generated successfully. Size: 9002671 bytes
+[2026-05-21T11:22:11.486Z] API called
+[2026-05-21T11:22:11.492Z] Generating PPT for 1 reports.
+[2026-05-21T11:22:11.495Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T11:22:11.645Z] Template fetch result: Success
+[2026-05-21T11:22:11.647Z] Adding slides for: ケーズ水戸本店
+[2026-05-21T11:22:12.754Z] Batch PPT generated successfully. Size: 4524485 bytes
+[2026-05-21T13:29:02.398Z] API called
+[2026-05-21T13:29:02.401Z] Generating PPT for 1 reports.
+[2026-05-21T13:29:02.403Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:29:03.188Z] Template fetch result: Success
+[2026-05-21T13:29:03.190Z] Adding slides for: ノジマレイクタウン店
+[2026-05-21T13:29:04.261Z] Batch PPT generated successfully. Size: 4524512 bytes
+[2026-05-21T13:37:18.784Z] API called
+[2026-05-21T13:37:18.790Z] Generating PPT for 1 reports.
+[2026-05-21T13:37:18.792Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:37:18.943Z] Template fetch result: Success
+[2026-05-21T13:37:18.945Z] Adding slides for: ケーズ水戸本店
+[2026-05-21T13:37:20.047Z] Batch PPT generated successfully. Size: 4524485 bytes
+[2026-05-21T13:38:46.967Z] API called
+[2026-05-21T13:38:46.970Z] Generating PPT for 1 reports.
+[2026-05-21T13:38:46.972Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:38:47.658Z] Template fetch result: Success
+[2026-05-21T13:38:47.659Z] Adding slides for: ノジマレイクタウン店
+[2026-05-21T13:38:48.535Z] Batch PPT generated successfully. Size: 4524512 bytes
+[2026-05-21T13:46:01.440Z] API called
+[2026-05-21T13:46:01.445Z] Generating PPT for 1 reports.
+[2026-05-21T13:46:01.447Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:46:01.942Z] Template fetch result: Success
+[2026-05-21T13:46:01.943Z] Adding slides for: ケーズ水戸本店
+[2026-05-21T13:46:03.016Z] Batch PPT generated successfully. Size: 4524489 bytes
+[2026-05-21T13:48:35.717Z] API called
+[2026-05-21T13:48:35.722Z] Generating PPT for 1 reports.
+[2026-05-21T13:48:35.723Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:48:36.116Z] Template fetch result: Success
+[2026-05-21T13:48:36.118Z] Adding slides for: ケーズ水戸本店
+[2026-05-21T13:48:37.172Z] Batch PPT generated successfully. Size: 4524489 bytes
+[2026-05-21T13:50:40.676Z] API called
+[2026-05-21T13:50:40.680Z] Generating PPT for 1 reports.
+[2026-05-21T13:50:40.682Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:50:41.106Z] Template fetch result: Success
+[2026-05-21T13:50:41.108Z] Adding slides for: ケーズ水戸本店
+[2026-05-21T13:50:42.061Z] Batch PPT generated successfully. Size: 4524489 bytes
+[2026-05-21T13:55:08.300Z] API called
+[2026-05-21T13:55:08.305Z] Generating PPT for 1 reports.
+[2026-05-21T13:55:08.307Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-21T13:55:08.736Z] Template fetch result: Success
+[2026-05-21T13:55:08.738Z] Adding slides for: ノジマレイクタウン店
+[2026-05-21T13:55:09.660Z] Batch PPT generated successfully. Size: 4524516 bytes
+[2026-05-23T03:42:41.077Z] API called
+[2026-05-23T03:42:41.081Z] Generating PPT for 1 reports.
+[2026-05-23T03:42:41.083Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-23T03:42:41.563Z] Template fetch result: Success
+[2026-05-23T03:42:41.564Z] Adding slides for: LABI1 LIFE SELECT なんば
+[2026-05-23T03:42:42.459Z] Batch PPT generated successfully. Size: 4522719 bytes
+[2026-05-23T03:47:25.341Z] API called
+[2026-05-23T03:47:25.343Z] Generating PPT for 1 reports.
+[2026-05-23T03:47:25.344Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-23T03:47:25.715Z] Template fetch result: Success
+[2026-05-23T03:47:25.716Z] Adding slides for: LABI1 LIFE SELECT なんば
+[2026-05-23T03:47:26.490Z] Batch PPT generated successfully. Size: 4522662 bytes
+[2026-05-23T03:49:49.598Z] API called
+[2026-05-23T03:49:49.602Z] Generating PPT for 1 reports.
+[2026-05-23T03:49:49.603Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-23T03:49:49.969Z] Template fetch result: Success
+[2026-05-23T03:49:49.970Z] Adding slides for: LABI1 LIFE SELECT なんば
+[2026-05-23T03:49:50.695Z] Batch PPT generated successfully. Size: 4522662 bytes
+[2026-05-23T04:16:44.963Z] API called
+[2026-05-23T04:16:44.968Z] Generating PPT for 1 reports.
+[2026-05-23T04:16:44.970Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-23T04:16:45.498Z] Template fetch result: Success
+[2026-05-23T04:16:45.500Z] Adding slides for: LABI1 LIFE SELECT なんば
+[2026-05-23T04:16:46.412Z] Batch PPT generated successfully. Size: 4522662 bytes
+[2026-05-23T04:18:33.952Z] API called
+[2026-05-23T04:18:33.955Z] Generating PPT for 1 reports.
+[2026-05-23T04:18:33.956Z] Fetching template background: https://gpsdsqtllhjbzcnoprez.supabase.co/storage/v1/object/public/reports/assets/template.jpg
+[2026-05-23T04:18:34.536Z] Template fetch result: Success
+[2026-05-23T04:18:34.538Z] Adding slides for: LABI1 LIFE SELECT なんば
+[2026-05-23T04:18:35.581Z] Batch PPT generated successfully. Size: 4522662 bytes
