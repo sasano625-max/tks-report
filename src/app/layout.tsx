@@ -10,6 +10,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "TKS RepoMaker - 設置報告書自動作成",
   description: "店舗設置報告書をパワーポイントで自動生成するツールです。",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({

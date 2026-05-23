@@ -74,6 +74,7 @@ export default function Home() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [hasConsented, setHasConsented] = useState(false);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminPassword, setAdminPassword] = useState("");
@@ -187,6 +188,15 @@ export default function Home() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, key: keyof ReportData["images"]) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("画像ファイルのみアップロード可能です。");
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      alert("ファイルサイズは10MB以下にしてください。");
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -521,6 +531,15 @@ export default function Home() {
   const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!file.name.endsWith(".csv") && file.type !== "text/csv") {
+      alert("CSVファイルのみアップロード可能です。");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("CSVファイルサイズは5MB以下にしてください。");
+      return;
+    }
 
     setIsUploadingCSV(true);
     const reader = new FileReader();
@@ -986,12 +1005,25 @@ export default function Home() {
                 </div>
               </section>
 
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200 mb-6">
+                <input 
+                  type="checkbox" 
+                  id="consent"
+                  className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                  checked={hasConsented}
+                  onChange={(e) => setHasConsented(e.target.checked)}
+                />
+                <label htmlFor="consent" className="text-xs text-slate-600 leading-relaxed">
+                  <a href="/terms" className="text-blue-600 hover:underline" target="_blank">利用規約</a> および <a href="/privacy" className="text-blue-600 hover:underline" target="_blank">プライバシーポリシー</a> に同意し、第三者のプライバシー等に配慮した写真をアップロードします。
+                </label>
+              </div>
+
               <button 
                 onClick={handleSubmit}
-                disabled={isSubmitting || !formData.storeName}
+                disabled={isSubmitting || !formData.storeName || !hasConsented}
                 className={cn(
                   "w-full py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-xl transition-all",
-                  isSubmitting || !formData.storeName 
+                  isSubmitting || !formData.storeName || !hasConsented
                     ? "bg-slate-300 text-slate-500 cursor-not-allowed" 
                     : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
                 )}
@@ -1171,6 +1203,14 @@ export default function Home() {
                     onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (file) {
+                        if (!file.type.startsWith("image/")) {
+                          alert("画像ファイルのみアップロード可能です。");
+                          return;
+                        }
+                        if (file.size > 10 * 1024 * 1024) {
+                          alert("ファイルサイズは10MB以下にしてください。");
+                          return;
+                        }
                         setIsUploadingTemplate(true);
                         try {
                           const { error } = await supabase.storage
