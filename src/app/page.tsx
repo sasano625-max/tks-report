@@ -121,43 +121,51 @@ export default function Home() {
     }
   }, [role, isAuthenticated]);
 
-  const handleAdminAuth = (e: React.FormEvent) => {
+  const handleAdminAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (adminPassword === "tkstks") {
-      setIsAuthenticated(true);
-      setRole("admin");
-      setShowAdminAuth(false);
-      setAuthError(false);
-    } else {
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: adminPassword })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsAuthenticated(true);
+        setRole("admin");
+        setShowAdminAuth(false);
+        setAuthError(false);
+      } else {
+        setAuthError(true);
+      }
+    } catch {
       setAuthError(true);
-      setAdminPassword("");
     }
+    setAdminPassword("");
   };
 
   const fetchSubmissions = async () => {
-    setLoadingSubmissions(true);
-    const { data, error } = await supabase
-      .from("reports")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching submissions:", error);
-    } else {
+    try {
+      setLoadingSubmissions(true);
+      const res = await fetch(`/api/reports?password=${encodeURIComponent(adminPassword)}`);
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
       setSubmissions(data || []);
+    } catch (error) {
+      console.error("Error fetching submissions:", error);
+    } finally {
+      setLoadingSubmissions(false);
     }
-    setLoadingSubmissions(false);
   };
 
   const fetchPlannedStores = async () => {
-    const { data, error } = await supabase
-      .from("reports")
-      .select("*")
-      .is("images", null)
-      .order("completion_date", { ascending: true });
-    
-    if (!error && data) {
-      setPlannedStores(data);
+    try {
+      const res = await fetch("/api/reports?planned=true");
+      if (!res.ok) throw new Error("Failed to fetch planned stores");
+      const data = await res.json();
+      setPlannedStores(data || []);
+    } catch (error) {
+      console.error("Error fetching planned stores:", error);
     }
   };
 
@@ -278,9 +286,10 @@ export default function Home() {
       }
 
       // Save report data to Supabase Database
-      const { error } = await supabase
-        .from("reports")
-        .insert([{
+      const res = await fetch("/api/reports", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify([{
           store_name: formData.storeName,
           completion_date: formData.completionDate,
           type: formData.type,
@@ -288,9 +297,10 @@ export default function Home() {
           monitor_right: formData.monitorRight,
           images: uploadedImages,
           created_at: new Date().toISOString()
-        }]);
+        }]),
+      });
 
-      if (error) throw error;
+      if (!res.ok) throw new Error("Insert failed");
 
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
@@ -371,12 +381,11 @@ export default function Home() {
     
     setDeletingId(id);
     try {
-      const { error } = await supabase
-        .from("reports")
-        .delete()
-        .eq("id", id);
+      const res = await fetch(`/api/reports?id=${id}&password=${encodeURIComponent(adminPassword)}`, {
+        method: "DELETE"
+      });
 
-      if (error) throw error;
+      if (!res.ok) throw new Error("Delete failed");
       
       setSubmissions(prev => prev.filter(sub => (sub as any).id !== id));
       setSelectedIds(prev => {
@@ -396,42 +405,42 @@ export default function Home() {
 
   const handleDeleteAll = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (deleteAllPassword !== "tkstks") {
-      setDeleteAllError(true);
-      setDeleteAllPassword("");
-      return;
-    }
+    const handleDeleteAllData = async () => {
+      setIsDeletingAll(true);
+      try {
+        const authRes = await fetch("/api/auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: deleteAllPassword })
+        });
+        const authData = await authRes.json();
+        if (!authData.success) {
+          setDeleteAllError(true);
+          setIsDeletingAll(false);
+          return;
+        }
+        setDeleteAllError(false);
+        // Deleting all rows by using a condition that matches all (neq invalid UUID)
+        const delRes = await fetch(`/api/reports?password=${encodeURIComponent(deleteAllPassword)}`, {
+          method: "DELETE"
+        });
+        if (!delRes.ok) throw new Error("Delete failed");
 
-    if (!confirm("本当に全てのデータを削除しますか？\nこの操作は取り消せません。")) {
-      setShowDeleteAllAuth(false);
-      setDeleteAllPassword("");
-      setDeleteAllError(false);
-      return;
-    }
-
-    setIsDeletingAll(true);
-    try {
-      // Deleting all rows by using a condition that matches all (neq invalid UUID)
-      const { error } = await supabase
-        .from("reports")
-        .delete()
-        .neq("id", "00000000-0000-0000-0000-000000000000");
-
-      if (error) throw error;
-
-      setSubmissions([]);
-      setSelectedIds(new Set());
-      setPlannedStores([]);
-      alert("全データを削除しました");
+        setSubmissions([]);
+        setSelectedIds(new Set());
+        setPlannedStores([]);
+        alert("全データを削除しました");
       
-      setShowDeleteAllAuth(false);
-      setDeleteAllPassword("");
-      setDeleteAllError(false);
-    } catch (error) {
-      alert("削除に失敗しました: " + (error as Error).message);
-    } finally {
-      setIsDeletingAll(false);
-    }
+        setShowDeleteAllAuth(false);
+        setDeleteAllPassword("");
+        setDeleteAllError(false);
+      } catch (error) {
+        alert("削除に失敗しました: " + (error as Error).message);
+      } finally {
+        setIsDeletingAll(false);
+      }
+    };
+    handleDeleteAllData();
   };
 
   const handleBatchDelete = async () => {
@@ -486,17 +495,20 @@ export default function Home() {
   };
 
   const handleEditSave = async () => {
-    if (!editingSubId) return;
     try {
-      const { error } = await supabase
-        .from("reports")
-        .update(editData)
-        .eq("id", editingSubId);
+      if (editingSubId) {
+        // Update existing report
+        const res = await fetch(`/api/reports?id=${editingSubId}&password=${encodeURIComponent(adminPassword)}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editData),
+        });
 
-      if (error) throw error;
+        if (!res.ok) throw new Error("Update failed");
       
-      setSubmissions(prev => prev.map(s => (s as any).id === editingSubId ? { ...s, ...editData } : s));
-      setEditingSubId(null);
+        setSubmissions(prev => prev.map(s => (s as any).id === editingSubId ? { ...s, ...editData } : s));
+        setEditingSubId(null);
+      }
     } catch (error) {
       alert("更新に失敗しました: " + (error as Error).message);
     }
@@ -609,11 +621,12 @@ export default function Home() {
           throw new Error(`有効なデータが見つかりませんでした。\n形式: 店舗名,住所,電話番号,予定日...\n読み取った最初の行: ${lines[0]}`);
         }
 
-        const { error } = await supabase.from("reports").insert(newRows as any);
-        if (error) {
-          console.error("Supabase Insert Error:", error);
-          throw new Error(`データベース登録エラー: ${error.message} (${error.details || ''})`);
-        }
+        const res = await fetch("/api/reports", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newRows),
+        });
+        if (!res.ok) throw new Error("CSV Insert failed");
 
         alert(`${newRows.length}件の店舗を登録しました`);
         fetchSubmissions();
