@@ -590,7 +590,7 @@ export default function Home() {
           throw new Error(`有効なデータが見つかりませんでした。\n形式: 店舗名,住所,電話番号,予定日...\n読み取った最初の行: ${lines[0]}`);
         }
 
-        const { error } = await supabase.from("reports").insert(newRows);
+        const { error } = await supabase.from("reports").insert(newRows as any);
         if (error) {
           console.error("Supabase Insert Error:", error);
           throw new Error(`データベース登録エラー: ${error.message} (${error.details || ''})`);

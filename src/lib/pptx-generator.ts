@@ -52,36 +52,36 @@ export async function generatePPT(data: ReportData) {
 
   const addHeader = (slide: any) => {
     const tableData = [
-      [{ text: "店舗名", options: { fill: "D9E2F3" } }, { text: data.storeName }],
-      [{ text: "設置日", options: { fill: "D9E2F3" } }, { text: data.completionDate }],
-      [{ text: "Type", options: { fill: "D9E2F3" } }, { text: data.type }],
-      [{ text: "モニターL", options: { fill: "D9E2F3" } }, { text: data.monitorLeft }],
-      [{ text: "モニターR", options: { fill: "D9E2F3" } }, { text: data.monitorRight }],
+      [{ text: "店舗名", options: { fill: { color: "D9E2F3" } } }, { text: data.storeName }],
+      [{ text: "設置日", options: { fill: { color: "D9E2F3" } } }, { text: data.completionDate }],
+      [{ text: "Type", options: { fill: { color: "D9E2F3" } } }, { text: data.type }],
+      [{ text: "モニターL", options: { fill: { color: "D9E2F3" } } }, { text: data.monitorLeft }],
+      [{ text: "モニターR", options: { fill: { color: "D9E2F3" } } }, { text: data.monitorRight }],
     ];
     slide.addTable(tableData, { x: 0.2, y: 0.2, w: 3.5, rowH: 0.3, fontSize: 10, fontFace: "Meiryo" });
   };
 
   const slide1 = pptx.addSlide();
   addHeader(slide1);
-  slide1.addText("Before", { x: 0.2, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: "CCCCCC", fontFace: "Meiryo" });
-  if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: 1.2, y: 2.8, w: 2.7, h: 4.3, sizing: { type: "contain" } });
-  slide1.addText("After", { x: 5.1, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: "000099", color: "FFFFFF", fontFace: "Meiryo" });
-  if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: 6.1, y: 2.8, w: 2.7, h: 4.3, sizing: { type: "contain" } });
+  slide1.addText("Before", { x: 0.2, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "CCCCCC" }, fontFace: "Meiryo" });
+  if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: 1.2, y: 2.8, w: 2.7, h: 4.3, sizing: { type: "contain", w: 2.7, h: 4.3 } });
+  slide1.addText("After", { x: 5.1, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "000099" }, color: "FFFFFF", fontFace: "Meiryo" });
+  if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: 6.1, y: 2.8, w: 2.7, h: 4.3, sizing: { type: "contain", w: 2.7, h: 4.3 } });
 
   const slide2 = pptx.addSlide();
   addHeader(slide2);
   const views = [{ t: "正面", img: fetchedImages.front, x: 0.1 }, { t: "側面(左)", img: fetchedImages.sideLeft, x: 3.4 }, { t: "側面(右)", img: fetchedImages.sideRight, x: 6.7 }];
   views.forEach(v => {
-    slide2.addText(v.t, { x: v.x, y: 2.5, w: 3.2, h: 0.6, align: "center", fill: "000099", color: "FFFFFF", fontFace: "Meiryo" });
-    if (v.img) slide2.addImage({ data: v.img, x: v.x + 0.1, y: 3.2, w: 3.0, h: 3.9, sizing: { type: "contain" } });
+    slide2.addText(v.t, { x: v.x, y: 2.5, w: 3.2, h: 0.6, align: "center", fill: { color: "000099" }, color: "FFFFFF", fontFace: "Meiryo" });
+    if (v.img) slide2.addImage({ data: v.img, x: v.x + 0.1, y: 3.2, w: 3.0, h: 3.9, sizing: { type: "contain", w: 3.0, h: 3.9 } });
   });
 
   const slide3 = pptx.addSlide();
   addHeader(slide3);
-  slide3.addText("他社比較", { x: 0.2, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: "CCCCCC", fontFace: "Meiryo" });
-  if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: 0.3, y: 2.8, w: 4.5, h: 4.3, sizing: { type: "contain" } });
-  slide3.addText("他社比較", { x: 5.1, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: "CCCCCC", fontFace: "Meiryo" });
-  if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: 5.2, y: 2.8, w: 4.5, h: 4.3, sizing: { type: "contain" } });
+  slide3.addText("他社比較", { x: 0.2, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "CCCCCC" }, fontFace: "Meiryo" });
+  if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: 0.3, y: 2.8, w: 4.5, h: 4.3, sizing: { type: "contain", w: 4.5, h: 4.3 } });
+  slide3.addText("他社比較", { x: 5.1, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "CCCCCC" }, fontFace: "Meiryo" });
+  if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: 5.2, y: 2.8, w: 4.5, h: 4.3, sizing: { type: "contain", w: 4.5, h: 4.3 } });
 
   const fileName = `Report_${Date.now()}.pptx`;
   
