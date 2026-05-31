@@ -92,6 +92,10 @@ export default function Home() {
   const [showLayoutSettings, setShowLayoutSettings] = useState(false);
   const [pptLayout, setPptLayout] = useState<PPTLayoutConfig>(DEFAULT_LAYOUT);
 
+  // Grouping and Sorting state for reports list
+  const [sortAscending, setSortAscending] = useState(false);
+  const [collapsedDates, setCollapsedDates] = useState<Set<string>>(new Set());
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("pptLayout");
@@ -478,6 +482,29 @@ export default function Home() {
     if (filterStatus === "waiting") return matchesSearch && !sub.images;
     return matchesSearch;
   });
+
+  // Sort submissions by completion date
+  const sortedSubmissions = [...filteredSubmissions].sort((a, b) => {
+    const dateA = (a as any).completion_date || a.completionDate || "";
+    const dateB = (b as any).completion_date || b.completionDate || "";
+    if (sortAscending) {
+      return dateA.localeCompare(dateB); // Ascending
+    } else {
+      return dateB.localeCompare(dateA); // Descending (default)
+    }
+  });
+
+  // Group sorted submissions by date
+  const groupedSubmissionsByDate: { [date: string]: typeof filteredSubmissions } = {};
+  sortedSubmissions.forEach(sub => {
+    const date = (sub as any).completion_date || sub.completionDate || "日付未設定";
+    if (!groupedSubmissionsByDate[date]) {
+      groupedSubmissionsByDate[date] = [];
+    }
+    groupedSubmissionsByDate[date].push(sub);
+  });
+
+  const uniqueDates = Object.keys(groupedSubmissionsByDate);
 
   const toggleSelectAll = () => {
     if (selectedIds.size === filteredSubmissions.length) {
@@ -1274,7 +1301,33 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="space-y-3">
+              {/* List Controls */}
+              {filteredSubmissions.length > 0 && (
+                <div className="flex items-center justify-between px-1 py-2 text-xs font-bold text-slate-500">
+                  <button
+                    onClick={() => setSortAscending(!sortAscending)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-100 shadow-sm hover:bg-slate-50 transition-all text-slate-600 cursor-pointer"
+                  >
+                    <span>予定日: {sortAscending ? "古い順 ↑" : "新しい順 ↓"}</span>
+                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setCollapsedDates(new Set())}
+                      className="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-white border border-transparent hover:border-slate-100 hover:shadow-sm transition-all cursor-pointer"
+                    >
+                      すべて展開
+                    </button>
+                    <button
+                      onClick={() => setCollapsedDates(new Set(uniqueDates))}
+                      className="px-2.5 py-1.5 rounded-lg hover:text-blue-600 hover:bg-white border border-transparent hover:border-slate-100 hover:shadow-sm transition-all cursor-pointer"
+                    >
+                      すべて折畳
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-4">
                 {filteredSubmissions.length === 0 ? (
                   <div className="bg-white p-12 rounded-3xl text-center space-y-4 border border-slate-100 shadow-sm">
                     <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
@@ -1283,123 +1336,176 @@ export default function Home() {
                     <p className="text-slate-400 text-sm">該当する報告が見つかりません</p>
                   </div>
                 ) : (
-                  filteredSubmissions.map((sub, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className={cn(
-                        "bg-white p-5 rounded-2xl shadow-sm border transition-all flex items-center justify-between group",
-                        selectedIds.has((sub as any).id) ? "border-blue-500 ring-1 ring-blue-500/20 bg-blue-50/30" : "border-slate-100"
-                      )}
-                    >
-                      <div className="flex items-center gap-4 min-w-0">
+                  uniqueDates.map((date) => {
+                    const groupItems = groupedSubmissionsByDate[date];
+                    const isCollapsed = collapsedDates.has(date);
+                    
+                    // Format date string for display (e.g. 2026-07-25 -> 2026年07月25日)
+                    let formattedDate = date;
+                    const dateParts = date.split("-");
+                    if (dateParts.length === 3) {
+                      formattedDate = `${dateParts[0]}年${dateParts[1]}月${dateParts[2]}日`;
+                    }
+
+                    return (
+                      <div key={date} className="space-y-2">
+                        {/* Group Header */}
                         <div 
                           onClick={() => {
-                            const id = (sub as any).id;
-                            const newSet = new Set(selectedIds);
-                            if (newSet.has(id)) newSet.delete(id);
-                            else newSet.add(id);
-                            setSelectedIds(newSet);
+                            const newSet = new Set(collapsedDates);
+                            if (newSet.has(date)) {
+                              newSet.delete(date);
+                            } else {
+                              newSet.add(date);
+                            }
+                            setCollapsedDates(newSet);
                           }}
-                          className={cn(
-                            "w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all",
-                            selectedIds.has((sub as any).id) 
-                              ? "bg-blue-600 border-blue-600 text-white" 
-                              : "border-slate-200 bg-white"
-                          )}
+                          className="flex items-center justify-between px-4 py-2.5 bg-slate-100/70 hover:bg-slate-200/50 rounded-2xl cursor-pointer select-none transition-colors border border-slate-200/40"
                         >
-                          {selectedIds.has((sub as any).id) && <CheckCircle2 className="w-3 h-3" />}
-                        </div>
-                        <div className="flex-1 min-w-0 space-y-1">
-                          {editingSubId === (sub as any).id ? (
-                            <div className="space-y-2 p-2 bg-slate-50 rounded-xl border border-slate-200">
-                              <input 
-                                className="w-full px-2 py-1 text-sm font-bold rounded border" 
-                                value={editData.store_name} 
-                                onChange={e => setEditData({...editData, store_name: e.target.value})}
-                              />
-                              <div className="grid grid-cols-2 gap-2">
-                                <input 
-                                  type="date"
-                                  className="px-2 py-1 text-xs rounded border" 
-                                  value={editData.completion_date} 
-                                  onChange={e => setEditData({...editData, completion_date: e.target.value})}
-                                />
-                                <input 
-                                  className="px-2 py-1 text-xs rounded border" 
-                                  value={editData.type} 
-                                  onChange={e => setEditData({...editData, type: e.target.value})}
-                                />
-                              </div>
-                              <div className="flex justify-end gap-2 pt-1">
-                                <button onClick={() => setEditingSubId(null)} className="text-[10px] font-bold text-slate-400">キャンセル</button>
-                                <button onClick={handleEditSave} className="text-[10px] font-bold text-blue-600">保存する</button>
-                              </div>
-                            </div>
-                          ) : (
-                            <div 
-                              onClick={() => handleEditStart(sub)}
-                              className="cursor-pointer group/item min-w-0"
-                            >
-                              <div className="flex items-start gap-2 min-h-[48px]">
-                                <h3 className={cn(
-                                  "font-bold transition-all group-hover/item:text-blue-600 line-clamp-2 leading-snug pr-2",
-                                  !sub.images ? "text-slate-400 italic" : "text-slate-900"
-                                )}>
-                                  {(sub as any).store_name || sub.storeName}
-                                </h3>
-                              </div>
-                              <div className="flex items-center gap-3 text-xs text-slate-500 font-semibold truncate mt-1">
-                                <span className="shrink-0">{(sub as any).completion_date || sub.completionDate}</span>
-                                <span className="shrink-0">•</span>
-                                <span className="truncate">{sub.type}</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex shrink-0 gap-2 ml-3">
-                        {sub.images ? (
-                          <>
-                            <button 
-                              onClick={() => handleDownload(sub, (sub as any).id)}
-                              disabled={downloadingId === (sub as any).id}
-                              className="p-2.5 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors disabled:opacity-50"
-                              title="ダウンロード"
-                            >
-                              {downloadingId === (sub as any).id ? (
-                                <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                              ) : (
-                                <Download className="w-5 h-5" />
-                              )}
-                            </button>
-                            <button 
-                              onClick={() => handleDelete((sub as any).id)}
-                              disabled={deletingId === (sub as any).id}
-                              className="p-2.5 text-red-400 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
-                              title="削除"
-                            >
-                              {deletingId === (sub as any).id ? (
-                                <div className="w-5 h-5 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
-                              ) : (
-                                <Trash2 className="w-5 h-5" />
-                              )}
-                            </button>
-                          </>
-                        ) : (
-                          <div className="flex flex-col items-center gap-1.5">
-                            <span className="shrink-0 text-[9px] bg-slate-100 text-slate-500 px-2.5 py-0.5 rounded-full font-bold">報告待ち</span>
-                            <div className="flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold text-slate-400 border border-slate-100 rounded-lg whitespace-nowrap">
-                              <Clock className="w-3 h-3 shrink-0" />
-                              未提出
-                            </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-slate-700">{formattedDate}</span>
+                            <span className="text-[10px] font-extrabold bg-white text-slate-500 px-2 py-0.5 rounded-full border border-slate-200/60 shadow-sm">
+                              {groupItems.length}件
+                            </span>
                           </div>
-                        )}
+                          <span className="text-[10px] text-slate-400 font-extrabold">
+                            {isCollapsed ? "展開する +" : "閉じる −"}
+                          </span>
+                        </div>
+
+                        {/* Group Content (Accordion) */}
+                        <AnimatePresence initial={false}>
+                          {!isCollapsed && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden space-y-2.5 pl-1"
+                            >
+                              {groupItems.map((sub, i) => (
+                                <motion.div 
+                                  key={(sub as any).id || i}
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: Math.min(i * 0.03, 0.2) }}
+                                  className={cn(
+                                    "bg-white p-5 rounded-2xl shadow-sm border transition-all flex items-center justify-between group",
+                                    selectedIds.has((sub as any).id) ? "border-blue-500 ring-1 ring-blue-500/20 bg-blue-50/30" : "border-slate-100"
+                                  )}
+                                >
+                                  <div className="flex items-center gap-4 min-w-0">
+                                    <div 
+                                      onClick={() => {
+                                        const id = (sub as any).id;
+                                        const newSet = new Set(selectedIds);
+                                        if (newSet.has(id)) newSet.delete(id);
+                                        else newSet.add(id);
+                                        setSelectedIds(newSet);
+                                      }}
+                                      className={cn(
+                                        "w-5 h-5 rounded-md border-2 flex items-center justify-center cursor-pointer transition-all",
+                                        selectedIds.has((sub as any).id) 
+                                          ? "bg-blue-600 border-blue-600 text-white" 
+                                          : "border-slate-200 bg-white"
+                                      )}
+                                    >
+                                      {selectedIds.has((sub as any).id) && <CheckCircle2 className="w-3 h-3" />}
+                                    </div>
+                                    <div className="flex-1 min-w-0 space-y-1">
+                                      {editingSubId === (sub as any).id ? (
+                                        <div className="space-y-2 p-2 bg-slate-50 rounded-xl border border-slate-200">
+                                          <input 
+                                            className="w-full px-2 py-1 text-sm font-bold rounded border" 
+                                            value={editData.store_name} 
+                                            onChange={e => setEditData({...editData, store_name: e.target.value})}
+                                          />
+                                          <div className="grid grid-cols-2 gap-2">
+                                            <input 
+                                              type="date"
+                                              className="px-2 py-1 text-xs rounded border" 
+                                              value={editData.completion_date} 
+                                              onChange={e => setEditData({...editData, completion_date: e.target.value})}
+                                            />
+                                            <input 
+                                              className="px-2 py-1 text-xs rounded border" 
+                                              value={editData.type} 
+                                              onChange={e => setEditData({...editData, type: e.target.value})}
+                                            />
+                                          </div>
+                                          <div className="flex justify-end gap-2 pt-1">
+                                            <button onClick={() => setEditingSubId(null)} className="text-[10px] font-bold text-slate-400">キャンセル</button>
+                                            <button onClick={handleEditSave} className="text-[10px] font-bold text-blue-600">保存する</button>
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <div 
+                                          onClick={() => handleEditStart(sub)}
+                                          className="cursor-pointer group/item min-w-0"
+                                        >
+                                          <div className="flex items-start gap-2 min-h-[48px]">
+                                            <h3 className={cn(
+                                              "font-bold transition-all group-hover/item:text-blue-600 line-clamp-2 leading-snug pr-2",
+                                              !sub.images ? "text-slate-400 italic" : "text-slate-900"
+                                            )}>
+                                              {(sub as any).store_name || sub.storeName}
+                                            </h3>
+                                          </div>
+                                          <div className="flex items-center gap-3 text-xs text-slate-500 font-semibold truncate mt-1">
+                                            <span className="shrink-0">{(sub as any).completion_date || sub.completionDate}</span>
+                                            <span className="shrink-0">•</span>
+                                            <span className="truncate">{sub.type}</span>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="flex shrink-0 gap-2 ml-3">
+                                    {sub.images ? (
+                                      <>
+                                        <button 
+                                          onClick={() => handleDownload(sub, (sub as any).id)}
+                                          disabled={downloadingId === (sub as any).id}
+                                          className="p-2.5 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors disabled:opacity-50"
+                                          title="ダウンロード"
+                                        >
+                                          {downloadingId === (sub as any).id ? (
+                                            <div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                                          ) : (
+                                            <Download className="w-5 h-5" />
+                                          )}
+                                        </button>
+                                        <button 
+                                          onClick={() => handleDelete((sub as any).id)}
+                                          disabled={deletingId === (sub as any).id}
+                                          className="p-2.5 text-red-400 hover:bg-red-50 rounded-xl transition-colors disabled:opacity-50"
+                                          title="削除"
+                                        >
+                                          {deletingId === (sub as any).id ? (
+                                            <div className="w-5 h-5 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+                                          ) : (
+                                            <Trash2 className="w-5 h-5" />
+                                          )}
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <div className="flex flex-col items-center gap-1.5">
+                                        <span className="shrink-0 text-[9px] bg-slate-100 text-slate-500 px-2.5 py-0.5 rounded-full font-bold">報告待ち</span>
+                                        <div className="flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold text-slate-400 border border-slate-100 rounded-lg whitespace-nowrap">
+                                          <Clock className="w-3 h-3 shrink-0" />
+                                          未提出
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </motion.div>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
-                    </motion.div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </motion.div>
