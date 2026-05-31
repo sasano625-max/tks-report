@@ -78,6 +78,7 @@ export default function Home() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminPassword, setAdminPassword] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
   const [showAdminAuth, setShowAdminAuth] = useState(false);
   const [authError, setAuthError] = useState(false);
 
@@ -132,9 +133,11 @@ export default function Home() {
       const data = await res.json();
       if (data.success) {
         setIsAuthenticated(true);
+        setAuthPassword(adminPassword);
         setRole("admin");
         setShowAdminAuth(false);
         setAuthError(false);
+        fetchSubmissions(adminPassword);
       } else {
         setAuthError(true);
       }
@@ -144,10 +147,11 @@ export default function Home() {
     setAdminPassword("");
   };
 
-  const fetchSubmissions = async () => {
+  const fetchSubmissions = async (pw?: string) => {
     try {
       setLoadingSubmissions(true);
-      const res = await fetch(`/api/reports?password=${encodeURIComponent(adminPassword)}`);
+      const activePassword = pw !== undefined ? pw : authPassword;
+      const res = await fetch(`/api/reports?password=${encodeURIComponent(activePassword)}`);
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       setSubmissions(data || []);
@@ -381,7 +385,7 @@ export default function Home() {
     
     setDeletingId(id);
     try {
-      const res = await fetch(`/api/reports?id=${id}&password=${encodeURIComponent(adminPassword)}`, {
+      const res = await fetch(`/api/reports?id=${id}&password=${encodeURIComponent(authPassword)}`, {
         method: "DELETE"
       });
 
@@ -498,7 +502,7 @@ export default function Home() {
     try {
       if (editingSubId) {
         // Update existing report
-        const res = await fetch(`/api/reports?id=${editingSubId}&password=${encodeURIComponent(adminPassword)}`, {
+        const res = await fetch(`/api/reports?id=${editingSubId}&password=${encodeURIComponent(authPassword)}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(editData),
@@ -795,7 +799,11 @@ export default function Home() {
             </div>
             
             <button 
-              onClick={() => setRole(null)}
+              onClick={() => {
+                setRole(null);
+                setIsAuthenticated(false);
+                setAuthPassword("");
+              }}
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all text-xs font-bold"
             >
               <LogOut className="w-4 h-4" />
