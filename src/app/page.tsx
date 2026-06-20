@@ -887,6 +887,20 @@ export default function Home() {
                   </div>
                   <ChevronRight className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-200 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all" />
                 </button>
+
+                <a 
+                  href="/vendor_manual.html"
+                  target="_blank"
+                  className="group relative overflow-hidden bg-gradient-to-b from-emerald-50/80 to-emerald-100/40 p-6 rounded-3xl shadow-lg shadow-emerald-500/10 border border-emerald-200/60 flex flex-col items-center gap-3 transition-all hover:border-emerald-400 hover:shadow-emerald-500/20 hover:-translate-y-1 active:scale-95"
+                >
+                  <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center shadow-md shadow-emerald-500/30 group-hover:bg-emerald-600 group-hover:scale-110 transition-all">
+                    <FileText className="w-7 h-7" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-lg font-black text-emerald-950">業者用マニュアル</h3>
+                    <p className="text-xs font-bold text-emerald-700/80 mt-1">使い方を確認・印刷する</p>
+                  </div>
+                </a>
               </div>
 
               <p className="text-center text-[10px] text-slate-300 font-bold tracking-widest uppercase">
