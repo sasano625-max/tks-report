@@ -38,13 +38,13 @@ export type PPTLayoutConfig = {
 
 export const DEFAULT_LAYOUT: PPTLayoutConfig = {
   tableX: 0.2, tableY: 0.35, tableW1: 1.0, tableW2: 3.2, tableRowH: 0.22, tableFontSize: 9,
-  beforeX: 1.1, beforeY: 2.3, beforeW: 4.2, beforeH: 5.0,
-  afterX: 8.0, afterY: 2.3, afterW: 4.2, afterH: 5.0,
-  frontX: 0.2, frontY: 2.3, frontW: 4.2, frontH: 5.0,
-  sideLeftX: 4.55, sideLeftY: 2.3, sideLeftW: 4.2, sideLeftH: 5.0,
-  sideRightX: 8.9, sideRightY: 2.3, sideRightW: 4.2, sideRightH: 5.0,
-  other1X: 1.1, other1Y: 2.3, other1W: 4.2, other1H: 5.0,
-  other2X: 8.0, other2Y: 2.3, other2W: 4.2, other2H: 5.0,
+  beforeX: 0.8, beforeY: 2.6, beforeW: 5.6, beforeH: 4.2,
+  afterX: 6.9, afterY: 2.6, afterW: 5.6, afterH: 4.2,
+  frontX: 0.2, frontY: 3.1, frontW: 4.2, frontH: 3.15,
+  sideLeftX: 4.55, sideLeftY: 3.1, sideLeftW: 4.2, sideLeftH: 3.15,
+  sideRightX: 8.9, sideRightY: 3.1, sideRightW: 4.2, sideRightH: 3.15,
+  other1X: 0.8, other1Y: 2.6, other1W: 5.6, other1H: 4.2,
+  other2X: 6.9, other2Y: 2.6, other2W: 5.6, other2H: 4.2,
 };
 
 export default function Home() {
@@ -1030,7 +1030,7 @@ export default function Home() {
                     { id: "other1", label: "他社1" },
                     { id: "other2", label: "他社2" },
                   ].map((slot) => (
-                    <div key={slot.id} className="relative aspect-square">
+                    <div key={slot.id} className="relative aspect-[4/3]">
                       <label className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-2xl bg-white hover:bg-slate-50 transition-colors cursor-pointer overflow-hidden">
                         {formData.images[slot.id as keyof ReportData["images"]] ? (
                           <img 

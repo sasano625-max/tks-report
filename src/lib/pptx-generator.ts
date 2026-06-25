@@ -64,24 +64,24 @@ export async function generatePPT(data: ReportData) {
   const slide1 = pptx.addSlide();
   addHeader(slide1);
   slide1.addText("Before", { x: 0.2, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "CCCCCC" }, fontFace: "Meiryo" });
-  if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: 1.2, y: 2.8, w: 2.7, h: 4.3, sizing: { type: "contain", w: 2.7, h: 4.3 } });
+  if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: 0.8, y: 2.6, w: 5.6, h: 4.2, sizing: { type: "contain", w: 5.6, h: 4.2 } });
   slide1.addText("After", { x: 5.1, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "000099" }, color: "FFFFFF", fontFace: "Meiryo" });
-  if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: 6.1, y: 2.8, w: 2.7, h: 4.3, sizing: { type: "contain", w: 2.7, h: 4.3 } });
+  if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: 6.9, y: 2.6, w: 5.6, h: 4.2, sizing: { type: "contain", w: 5.6, h: 4.2 } });
 
   const slide2 = pptx.addSlide();
   addHeader(slide2);
-  const views = [{ t: "正面", img: fetchedImages.front, x: 0.1 }, { t: "側面(左)", img: fetchedImages.sideLeft, x: 3.4 }, { t: "側面(右)", img: fetchedImages.sideRight, x: 6.7 }];
+  const views = [{ t: "正面", img: fetchedImages.front, x: 0.1 }, { t: "側面(左)", img: fetchedImages.sideLeft, x: 4.5 }, { t: "側面(右)", img: fetchedImages.sideRight, x: 8.9 }];
   views.forEach(v => {
     slide2.addText(v.t, { x: v.x, y: 2.5, w: 3.2, h: 0.6, align: "center", fill: { color: "000099" }, color: "FFFFFF", fontFace: "Meiryo" });
-    if (v.img) slide2.addImage({ data: v.img, x: v.x + 0.1, y: 3.2, w: 3.0, h: 3.9, sizing: { type: "contain", w: 3.0, h: 3.9 } });
+    if (v.img) slide2.addImage({ data: v.img, x: v.x + 0.1, y: 3.1, w: 4.2, h: 3.15, sizing: { type: "contain", w: 4.2, h: 3.15 } });
   });
 
   const slide3 = pptx.addSlide();
   addHeader(slide3);
   slide3.addText("他社比較", { x: 0.2, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "CCCCCC" }, fontFace: "Meiryo" });
-  if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: 0.3, y: 2.8, w: 4.5, h: 4.3, sizing: { type: "contain", w: 4.5, h: 4.3 } });
+  if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: 0.8, y: 2.6, w: 5.6, h: 4.2, sizing: { type: "contain", w: 5.6, h: 4.2 } });
   slide3.addText("他社比較", { x: 5.1, y: 2.2, w: 4.7, h: 0.5, align: "center", fill: { color: "CCCCCC" }, fontFace: "Meiryo" });
-  if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: 5.2, y: 2.8, w: 4.5, h: 4.3, sizing: { type: "contain", w: 4.5, h: 4.3 } });
+  if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: 6.9, y: 2.6, w: 5.6, h: 4.2, sizing: { type: "contain", w: 5.6, h: 4.2 } });
 
   const fileName = `Report_${Date.now()}.pptx`;
   
