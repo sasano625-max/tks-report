@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     log(`Generating PPT for ${reports.length} reports.`);
     
     const defaultLayout = {
-      tableX: 0.2, tableY: 0.35, tableW1: 1.0, tableW2: 3.2, tableRowH: 0.22, tableFontSize: 9,
+      tableX: 0.2, tableY: 0.35, tableW1: 2.5, tableW2: 2.5, tableRowH: 0.25, tableFontSize: 9,
       beforeX: 0.8, beforeY: 2.6, beforeW: 5.6, beforeH: 4.2,
       afterX: 6.9, afterY: 2.6, afterW: 5.6, afterH: 4.2,
       frontX: 0.2, frontY: 3.1, frontW: 4.2, frontH: 3.15,
@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
         storeName: rawData.store_name || rawData.storeName || "名称未設定",
         completionDate: rawData.completion_date || rawData.completionDate || "",
         type: rawData.type || "",
+        wifiNumber: rawData.wifi_number || rawData.wifiNumber || rawData.images?.wifi_number || "",
         monitorLeft: rawData.monitor_left || rawData.monitorLeft || "",
         monitorRight: rawData.monitor_right || rawData.monitorRight || "",
         images: rawData.images || {}
@@ -100,7 +101,7 @@ export async function POST(req: NextRequest) {
       log(`Adding slides for: ${data.storeName}`);
       
       const images = data.images || {};
-      const imageKeys = Object.keys(images);
+      const imageKeys = Object.keys(images).filter(k => k !== "wifi_number");
       const imagePromises = imageKeys.map(async (key) => {
         const b64 = await getBase64(images[key]);
         return { key, b64 };
@@ -112,64 +113,73 @@ export async function POST(req: NextRequest) {
         if (res.b64) fetchedImages[res.key] = res.b64;
       });
 
-      const addHeader = (slide: any, title: string) => {
-        // Main Title
-        slide.addText(title, { 
-          x: 4.0, y: 0.45, w: 9.0, h: 0.5, 
-          fontSize: 24, fontFace: FONT_FACE, bold: true, color: PRIMARY_BLUE, 
-          align: "right" 
-        });
+      const addHeader = (slide: any, slideNumber: number) => {
+        // Page Number
+        slide.addText(slideNumber.toString(), { x: 12.8, y: 7.15, w: 0.4, h: 0.3, align: "right", fontSize: 12, fontFace: FONT_FACE });
+
+        // Status Table
+        const headerOpts = { fill: { color: "C5D9F1" }, color: "000000", align: "center", fontFace: FONT_FACE };
+        const valueOpts = { fill: { color: "FFFFFF" }, color: "000000", align: "center", fontFace: FONT_FACE };
 
         const tableData = [
-          [{ text: "店舗名", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.storeName, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
-          [{ text: "設置日", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.completionDate, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
-          [{ text: "タイプ", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.type, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
-          [{ text: "モニターL", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.monitorLeft, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
-          [{ text: "モニターR", options: { fill: { color: "1E40AF" }, color: "FFFFFF", align: "center", bold: true, fontFace: FONT_FACE } }, { text: data.monitorRight, options: { align: "center", fontFace: FONT_FACE, fill: { color: "F1F5F9" } } }],
+          [{ text: "店舗名", options: headerOpts as any }, { text: data.storeName || "", options: { ...valueOpts, fontSize: 8 } as any }],
+          [{ text: "設置日", options: headerOpts as any }, { text: data.completionDate || "", options: valueOpts as any }],
+          [{ text: "Wi-Fi番号", options: headerOpts as any }, { text: data.wifiNumber || "", options: valueOpts as any }],
+          [{ text: "モニター番号", options: { ...headerOpts, colspan: 2 } as any }],
+          [{ text: "左", options: headerOpts as any }, { text: "右", options: headerOpts as any }],
+          [{ text: data.monitorLeft || "", options: valueOpts as any }, { text: data.monitorRight || "", options: valueOpts as any }],
         ];
         slide.addTable(tableData, { 
-          x: layout.tableX, y: layout.tableY, colW: [layout.tableW1, layout.tableW2], rowH: layout.tableRowH, 
-          fontSize: layout.tableFontSize, fontFace: FONT_FACE, 
-          border: { type: "solid", color: "CBD5E1", pt: 0.5 } 
+          x: 0.3, y: 0.5, colW: [2.0, 2.0], rowH: 0.25, 
+          fontSize: 9, fontFace: FONT_FACE, 
+          border: { type: "solid", color: "000000", pt: 1.0 } 
         });
       };
 
-      // Slide 1: Before & After
+      // Slide 1: Before / After
       const slide1 = pptx.addSlide();
       if (templateBase64) slide1.background = { data: templateBase64 };
-      addHeader(slide1, "設置前・設置後 比較報告");
+      addHeader(slide1, 1);
       
-      slide1.addText("BEFORE", { x: layout.beforeX, y: layout.beforeY - 0.35, w: layout.beforeW, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: layout.beforeX, y: layout.beforeY, w: layout.beforeW, h: layout.beforeH, sizing: { type: "contain", w: layout.beforeW, h: layout.beforeH } });
+      slide1.addText("Before (設置前)", { x: 0.5, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: FONT_FACE, fontSize: 18 });
+      if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: 0.5, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
       
-      slide1.addText("AFTER", { x: layout.afterX, y: layout.afterY - 0.35, w: layout.afterW, h: 0.3, align: "center", fill: { color: PRIMARY_BLUE }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: layout.afterX, y: layout.afterY, w: layout.afterW, h: layout.afterH, sizing: { type: "contain", w: layout.afterW, h: layout.afterH } });
+      slide1.addText("After (設置後)", { x: 6.8, y: 2.3, w: 6.0, h: 0.4, fill: { color: "000099" }, color: "FFFFFF", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: FONT_FACE, fontSize: 18 });
+      if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: 6.8, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
 
-      // Slide 2: 3-Way Views
+      // Slide 2: Front, SideLeft, SideRight
       const slide2 = pptx.addSlide();
       if (templateBase64) slide2.background = { data: templateBase64 };
-      addHeader(slide2, "設置詳細（三面写真）");
+      addHeader(slide2, 2);
       
       const views = [
-        { t: "正面 (Front)", img: fetchedImages.front, x: layout.frontX, y: layout.frontY, w: layout.frontW, h: layout.frontH }, 
-        { t: "側面 左 (Left)", img: fetchedImages.sideLeft, x: layout.sideLeftX, y: layout.sideLeftY, w: layout.sideLeftW, h: layout.sideLeftH }, 
-        { t: "側面 右 (Right)", img: fetchedImages.sideRight, x: layout.sideRightX, y: layout.sideRightY, w: layout.sideRightW, h: layout.sideRightH }
+        { t: "正面", img: fetchedImages.front, x: 0.3 }, 
+        { t: "側面(左)", img: fetchedImages.sideLeft, x: 4.6 }, 
+        { t: "側面(右)", img: fetchedImages.sideRight, x: 8.9 }
       ];
       views.forEach(v => {
-        slide2.addText(v.t, { x: v.x, y: v.y - 0.35, w: v.w, h: 0.3, align: "center", fill: { color: PRIMARY_BLUE }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 11 });
-        if (v.img) slide2.addImage({ data: v.img, x: v.x, y: v.y, w: v.w, h: v.h, sizing: { type: "contain", w: v.w, h: v.h } });
+        slide2.addText(v.t, { x: v.x, y: 3.0, w: 4.1, h: 0.4, align: "center", fill: { color: "000099" }, color: "FFFFFF", bold: true, shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: FONT_FACE, fontSize: 20 });
+        if (v.img) slide2.addImage({ data: v.img, x: v.x, y: 3.4, w: 4.1, h: 3.5, sizing: { type: "contain", w: 4.1, h: 3.5 } });
       });
 
-      // Slide 3: Other Brands
+      // Slide 3: Store Front
       const slide3 = pptx.addSlide();
       if (templateBase64) slide3.background = { data: templateBase64 };
-      addHeader(slide3, "他社状況・周辺比較");
+      addHeader(slide3, 3);
       
-      slide3.addText("他社比較 1", { x: layout.other1X, y: layout.other1Y - 0.35, w: layout.other1W, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.other1) slide3.addImage({ data: fetchedImages.other1, x: layout.other1X, y: layout.other1Y, w: layout.other1W, h: layout.other1H, sizing: { type: "contain", w: layout.other1W, h: layout.other1H } });
+      slide3.addText("店舗正面写真", { x: 4.8, y: 1.2, w: 8.0, h: 0.4, fill: { color: "000099" }, color: "FFFFFF", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: FONT_FACE, fontSize: 20 });
+      if (fetchedImages.storeFront) slide3.addImage({ data: fetchedImages.storeFront, x: 4.8, y: 1.6, w: 8.0, h: 5.3, sizing: { type: "contain", w: 8.0, h: 5.3 } });
+
+      // Slide 4: Other Brands
+      const slide4 = pptx.addSlide();
+      if (templateBase64) slide4.background = { data: templateBase64 };
+      addHeader(slide4, 4);
       
-      slide3.addText("他社比較 2", { x: layout.other2X, y: layout.other2Y - 0.35, w: layout.other2W, h: 0.3, align: "center", fill: { color: "64748B" }, color: "FFFFFF", fontFace: FONT_FACE, bold: true, fontSize: 12 });
-      if (fetchedImages.other2) slide3.addImage({ data: fetchedImages.other2, x: layout.other2X, y: layout.other2Y, w: layout.other2W, h: layout.other2H, sizing: { type: "contain", w: layout.other2W, h: layout.other2H } });
+      slide4.addText("他社ブランドテーブル", { x: 0.5, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: FONT_FACE, fontSize: 18 });
+      if (fetchedImages.other1) slide4.addImage({ data: fetchedImages.other1, x: 0.5, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
+      
+      slide4.addText("他社ブランドテーブル", { x: 6.8, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: FONT_FACE, fontSize: 18 });
+      if (fetchedImages.other2) slide4.addImage({ data: fetchedImages.other2, x: 6.8, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
     }
 
     const buffer = await pptx.write({ outputType: "nodebuffer" });

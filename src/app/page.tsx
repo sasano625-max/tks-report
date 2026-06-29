@@ -67,6 +67,8 @@ export default function Home() {
     storeName: "",
     completionDate: new Date().toISOString().split("T")[0],
     type: "Samsung Brand Table",
+    wifiNumber: "",
+    monitorPrefix: "RKT",
     monitorLeft: "",
     monitorRight: "",
     images: {}
@@ -301,9 +303,9 @@ export default function Home() {
           store_name: formData.storeName,
           completion_date: formData.completionDate,
           type: formData.type,
-          monitor_left: formData.monitorLeft,
-          monitor_right: formData.monitorRight,
-          images: uploadedImages,
+          monitor_left: formData.monitorLeft ? `${formData.monitorPrefix || ""}${formData.monitorLeft}` : "",
+          monitor_right: formData.monitorRight ? `${formData.monitorPrefix || ""}${formData.monitorRight}` : "",
+          images: { ...uploadedImages, wifi_number: formData.wifiNumber },
           created_at: new Date().toISOString()
         }]),
       });
@@ -321,6 +323,8 @@ export default function Home() {
         storeName: "",
         completionDate: new Date().toISOString().split("T")[0],
         type: "Samsung Brand Table",
+        wifiNumber: "",
+        monitorPrefix: "RKT",
         monitorLeft: "",
         monitorRight: "",
         images: {}
@@ -343,7 +347,8 @@ export default function Home() {
       const data: ReportData = {
         storeName: rawSub.store_name || rawSub.storeName || "名称未設定",
         completionDate: rawSub.completion_date || rawSub.completionDate || "",
-        type: rawSub.type || "",
+        type: rawSub.type || "Samsung Brand Table",
+        wifiNumber: rawSub.wifi_number || rawSub.wifiNumber || rawSub.images?.wifi_number || "",
         monitorLeft: rawSub.monitor_left || rawSub.monitorLeft || "",
         monitorRight: rawSub.monitor_right || rawSub.monitorRight || "",
         images: rawSub.images || {}
@@ -989,26 +994,56 @@ export default function Home() {
                     </datalist>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">モニター番号 (左)</label>
-                      <input 
-                        type="number" 
-                        placeholder="7"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border-transparent outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all"
-                        value={formData.monitorLeft}
-                        onChange={e => setFormData({...formData, monitorLeft: e.target.value})}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">モニター番号 (右)</label>
-                      <input 
-                        type="number" 
-                        placeholder="8"
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border-transparent outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all"
-                        value={formData.monitorRight}
-                        onChange={e => setFormData({...formData, monitorRight: e.target.value})}
-                      />
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Wi-Fi番号</label>
+                    <input 
+                      type="text" 
+                      placeholder="例: 070-1234-5678"
+                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border-transparent focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                      value={formData.wifiNumber || ""}
+                      onChange={e => setFormData({...formData, wifiNumber: e.target.value})}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">モニター番号</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="space-y-1">
+                        <label className="text-[10px] text-slate-400">記号 (Prefix)</label>
+                        <input 
+                          type="text" 
+                          placeholder="RKT"
+                          className="w-full px-3 py-2 rounded-xl bg-slate-50 border-transparent outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                          value={formData.monitorPrefix ?? "RKT"}
+                          onChange={e => setFormData({...formData, monitorPrefix: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] text-slate-400">左 (Left)</label>
+                        <select 
+                          className="w-full px-3 py-2 rounded-xl bg-slate-50 border-transparent outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                          value={formData.monitorLeft}
+                          onChange={e => setFormData({...formData, monitorLeft: e.target.value})}
+                        >
+                          <option value="">なし</option>
+                          {Array.from({length: 99}, (_, i) => i + 1).map(n => (
+                            <option key={`left-${n}`} value={n}>{n}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] text-slate-400">右 (Right)</label>
+                        <select 
+                          className="w-full px-3 py-2 rounded-xl bg-slate-50 border-transparent outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                          value={formData.monitorRight}
+                          onChange={e => setFormData({...formData, monitorRight: e.target.value})}
+                        >
+                          <option value="">なし</option>
+                          {Array.from({length: 99}, (_, i) => i + 1).map(n => (
+                            <option key={`right-${n}`} value={n}>{n}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1027,6 +1062,7 @@ export default function Home() {
                     { id: "front", label: "正面" },
                     { id: "sideLeft", label: "左側面" },
                     { id: "sideRight", label: "右側面" },
+                    { id: "storeFront", label: "店舗正面写真" },
                     { id: "other1", label: "他社1" },
                     { id: "other2", label: "他社2" },
                   ].map((slot) => (
