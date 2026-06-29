@@ -46,6 +46,10 @@
         <td style="padding: 4px 0; border-top: 1px dashed #cbd5e1;">設置日が合っていれば、一覧から訪問店舗を選べます。<br><span style="font-size: 11px; color: #64748b;">※ない場合は下の「店舗名」欄に直接手入力してください。</span></td>
       </tr>
       <tr>
+        <td style="font-weight: bold; padding: 4px 0; border-top: 1px dashed #cbd5e1;">Wi-Fi番号</td>
+        <td style="padding: 4px 0; border-top: 1px dashed #cbd5e1;">該当店舗のWi-Fi番号を入力します。</td>
+      </tr>
+      <tr>
         <td style="font-weight: bold; padding: 4px 0; border-top: 1px dashed #cbd5e1;">モニター番号</td>
         <td style="padding: 4px 0; border-top: 1px dashed #cbd5e1;">管理者からの指定があれば入力します。<br><span style="font-size: 11px; color: #64748b;">※または初期値が自動で入力されます。</span></td>
       </tr>
@@ -62,14 +66,24 @@
   <p style="margin: 0 0 10px 0;">「＋」マークをタップして、端末のカメラで撮影するか保存済みの写真を選択してください。<br>
   <strong>※写真はすべて登録する必要があります。</strong>間違えた場合は右上のゴミ箱マークで削除できます。</p>
   
-  <div style="display: flex; gap: 8px; justify-content: space-between; text-align: center; font-size: 12px; font-weight: bold;">
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">設置前</div>
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">設置後</div>
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">正面</div>
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">左側面</div>
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">右側面</div>
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">他社1</div>
-    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">他社2</div>
+  <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 10px; border-radius: 6px; margin-bottom: 12px;">
+    <p style="margin: 0; font-weight: bold; color: #b45309; font-size: 13px;">⚠️ 画像フォーマットに関する重要なお願い</p>
+    <ul style="margin: 5px 0 0 0; padding-left: 20px; color: #92400e; font-size: 12px;">
+      <li style="margin-bottom: 3px;">アップロード画像は<strong>必ず「JPEG（.jpg）」または「PNG（.png）」形式</strong>をご利用ください。</li>
+      <li style="margin-bottom: 3px;">iPhone特有の<strong>「.HEIC」形式では、画像が正常に処理されずエラーになる</strong>場合があります。</li>
+      <li><strong>【iPhoneでの設定変更方法】</strong><br>iPhoneの「設定」＞「カメラ」＞「フォーマット」を<strong>「互換性優先」</strong>に設定してから撮影してください。</li>
+    </ul>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; font-size: 12px; font-weight: bold;">
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">設置前</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">設置後</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">正面</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">左側面</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">右側面</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">店舗正面</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">他社1</div>
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 8px 2px; border-radius: 6px;">他社2</div>
   </div>
 </div>
 
