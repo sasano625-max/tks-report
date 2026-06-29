@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>業者用マニュアル</title>
+</head>
+<body>
+<div style="max-width: 800px; margin: 0 auto; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; line-height: 1.5; color: #333;">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #2563eb; padding-bottom: 5px; margin-bottom: 10px;">
+  <h1 style="margin: 0; font-size: 20px; color: #1e3a8a;">TKS RepoMaker 業者用マニュアル（設置報告手順）</h1>
+</div>
+
+<div style="display: flex; gap: 20px; margin-bottom: 15px;">
+  <!-- Left Column: Access & Login -->
+  <div style="flex: 1;">
+    <h2 style="font-size: 16px; margin: 0 0 10px 0; color: #2563eb; border-left: 4px solid #2563eb; padding-left: 8px;">1. システムへのアクセス</h2>
+    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=http://localhost:3000" alt="QR Code" style="width: 80px; height: 80px; border: 1px solid #ccc; padding: 2px;" />
+      <div>
+        <p style="margin: 0 0 5px 0;">スマートフォン等のカメラで左のQRコードを読み取るか、指定のURLにアクセスしてください。</p>
+        <p style="margin: 0; font-weight: bold; background: #f1f5f9; padding: 4px 8px; border-radius: 4px; display: inline-block;">※パスワード入力・ログインは不要です。</p>
+      </div>
+    </div>
+
+    <h2 style="font-size: 16px; margin: 15px 0 10px 0; color: #2563eb; border-left: 4px solid #2563eb; padding-left: 8px;">2. 業者用モードの選択</h2>
+    <p style="margin: 0 0 10px 0;">画面が開いたら、権限選択画面で <strong>「業者用」</strong> をタップしてください。</p>
+    <div style="text-align: center;">
+      <img src="file:///C:/Users/sasan/.gemini/antigravity/brain/5a7fb5b9-3c38-484e-8bab-1dac9e0ecbb5/vendor_login_ui_1781967243020.png" style="width: 160px; border: 1px solid #e2e8f0; border-radius: 8px;" alt="ログイン画面" />
+    </div>
+  </div>
+
+  <!-- Right Column: Form Input -->
+  <div style="flex: 1.2;">
+    <h2 style="font-size: 16px; margin: 0 0 10px 0; color: #2563eb; border-left: 4px solid #2563eb; padding-left: 8px;">3. 店舗・設置情報の入力</h2>
+    <p style="margin: 0 0 10px 0;">報告フォームが表示されたら、上から順番に情報を入力します。</p>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+      <tr>
+        <td style="width: 85px; font-weight: bold; padding: 4px 0;">設置日</td>
+        <td style="padding: 4px 0;">本日の日付が自動で入ります。</td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; padding: 4px 0; border-top: 1px dashed #cbd5e1;">予定店舗<br>から選択</td>
+        <td style="padding: 4px 0; border-top: 1px dashed #cbd5e1;">設置日が合っていれば、一覧から訪問店舗を選べます。<br><span style="font-size: 11px; color: #64748b;">※ない場合は下の「店舗名」欄に直接手入力してください。</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight: bold; padding: 4px 0; border-top: 1px dashed #cbd5e1;">モニター番号</td>
+        <td style="padding: 4px 0; border-top: 1px dashed #cbd5e1;">管理者からの指定があれば入力します。<br><span style="font-size: 11px; color: #64748b;">※または初期値が自動で入力されます。</span></td>
+      </tr>
+    </table>
+
+    <div style="text-align: center; margin-top: 10px;">
+      <img src="file:///C:/Users/sasan/.gemini/antigravity/brain/5a7fb5b9-3c38-484e-8bab-1dac9e0ecbb5/vendor_form_ui_1781967254180.png" style="width: 160px; border: 1px solid #e2e8f0; border-radius: 8px;" alt="フォーム画面" />
+    </div>
+  </div>
+</div>
+
+<div style="border-top: 2px solid #e2e8f0; padding-top: 15px;">
+  <h2 style="font-size: 16px; margin: 0 0 10px 0; color: #2563eb; border-left: 4px solid #2563eb; padding-left: 8px;">4. 報告写真のアップロード (全項目撮影してください)</h2>
+  <p style="margin: 0 0 10px 0;">「＋」マークをタップして、端末のカメラで撮影するか保存済みの写真を選択してください。<br>
+  <strong>※写真はすべて登録する必要があります。</strong>間違えた場合は右上のゴミ箱マークで削除できます。</p>
+  
+  <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 10px; border-radius: 6px; margin-bottom: 12px;">
+    <p style="margin: 0; font-weight: bold; color: #b45309; font-size: 13px;">⚠️ 画像フォーマットに関する重要なお願い</p>
+    <ul style="margin: 5px 0 0 0; padding-left: 20px; color: #92400e; font-size: 12px;">
+      <li style="margin-bottom: 3px;">アップロード画像は<strong>必ず「JPEG（.jpg）」または「PNG（.png）」形式</strong>をご利用ください。</li>
+      <li style="margin-bottom: 3px;">iPhone特有の<strong>「.HEIC」形式では、画像が正常に処理されずエラーになる</strong>場合があります。</li>
+      <li><strong>【iPhoneでの設定変更方法】</strong><br>iPhoneの「設定」＞「カメラ」＞「フォーマット」を<strong>「互換性優先」</strong>に設定してから撮影してください。</li>
+    </ul>
+  </div>
+  
+  <div style="display: flex; gap: 8px; justify-content: space-between; text-align: center; font-size: 12px; font-weight: bold;">
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">設置前</div>
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">設置後</div>
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">正面</div>
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">左側面</div>
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">右側面</div>
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">他社1</div>
+    <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px 2px; border-radius: 6px;">他社2</div>
+  </div>
+</div>
+
+<div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; border-radius: 8px; margin-top: 15px;">
+  <h2 style="font-size: 16px; margin: 0 0 5px 0; color: #1d4ed8;">5. 報告の送信</h2>
+  <ol style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 5px;">「利用規約およびプライバシーポリシーに同意し…」の<strong>チェックボックス（☑️）</strong>にチェックを入れます。（※一般客の顔が写り込まないようご配慮ください）</li>
+    <li>青い<strong>「報告を送信する」</strong>ボタンを押します。完了メッセージが出れば終了です！</li>
+  </ol>
+</div>
+
+</div>
+</body>
+</html>
