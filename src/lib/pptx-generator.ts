@@ -75,10 +75,10 @@ export async function generatePPT(data: ReportData) {
   // Slide 1: Before / After
   const slide1 = pptx.addSlide();
   addHeader(slide1, 1);
-  slide1.addText("Before (設置前)", { x: 0.5, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
+  slide1.addText("Before (設置前)", { x: 0.5, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: (pptx as any).shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
   if (fetchedImages.before) slide1.addImage({ data: fetchedImages.before, x: 0.5, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
   
-  slide1.addText("After (設置後)", { x: 6.8, y: 2.3, w: 6.0, h: 0.4, fill: { color: "000099" }, color: "FFFFFF", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
+  slide1.addText("After (設置後)", { x: 6.8, y: 2.3, w: 6.0, h: 0.4, fill: { color: "000099" }, color: "FFFFFF", bold: true, align: "center", shape: (pptx as any).shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
   if (fetchedImages.after) slide1.addImage({ data: fetchedImages.after, x: 6.8, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
 
   // Slide 2: Front, SideLeft, SideRight
@@ -90,23 +90,23 @@ export async function generatePPT(data: ReportData) {
     { t: "側面(右)", img: fetchedImages.sideRight, x: 8.9 }
   ];
   views.forEach(v => {
-    slide2.addText(v.t, { x: v.x, y: 3.0, w: 4.1, h: 0.4, align: "center", fill: { color: "000099" }, color: "FFFFFF", bold: true, shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 20 });
+    slide2.addText(v.t, { x: v.x, y: 3.0, w: 4.1, h: 0.4, align: "center", fill: { color: "000099" }, color: "FFFFFF", bold: true, shape: (pptx as any).shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 20 });
     if (v.img) slide2.addImage({ data: v.img, x: v.x, y: 3.4, w: 4.1, h: 3.5, sizing: { type: "contain", w: 4.1, h: 3.5 } });
   });
 
   // Slide 3: Store Front
   const slide3 = pptx.addSlide();
   addHeader(slide3, 3);
-  slide3.addText("店舗正面写真", { x: 4.8, y: 1.2, w: 8.0, h: 0.4, fill: { color: "000099" }, color: "FFFFFF", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 20 });
+  slide3.addText("店舗正面写真", { x: 4.8, y: 1.2, w: 8.0, h: 0.4, fill: { color: "000099" }, color: "FFFFFF", bold: true, align: "center", shape: (pptx as any).shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 20 });
   if (fetchedImages.storeFront) slide3.addImage({ data: fetchedImages.storeFront, x: 4.8, y: 1.6, w: 8.0, h: 5.3, sizing: { type: "contain", w: 8.0, h: 5.3 } });
 
   // Slide 4: Other Brands
   const slide4 = pptx.addSlide();
   addHeader(slide4, 4);
-  slide4.addText("他社ブランドテーブル", { x: 0.5, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
+  slide4.addText("他社ブランドテーブル", { x: 0.5, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: (pptx as any).shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
   if (fetchedImages.other1) slide4.addImage({ data: fetchedImages.other1, x: 0.5, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
   
-  slide4.addText("他社ブランドテーブル", { x: 6.8, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: pptx.shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
+  slide4.addText("他社ブランドテーブル", { x: 6.8, y: 2.3, w: 6.0, h: 0.4, fill: { color: "D9D9D9" }, color: "000000", bold: true, align: "center", shape: (pptx as any).shapes.ROUNDED_RECTANGLE, fontFace: "Meiryo", fontSize: 18 });
   if (fetchedImages.other2) slide4.addImage({ data: fetchedImages.other2, x: 6.8, y: 2.7, w: 6.0, h: 4.2, sizing: { type: "contain", w: 6.0, h: 4.2 } });
 
   const fileName = `Report_${Date.now()}.pptx`;
